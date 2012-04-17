@@ -1,9 +1,8 @@
 import java.io.File;
-import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Scanner;
-/*
 import java.util.*;
+
+/*
 import static java.lang.Math.*;
 import java.io.*;
 */
@@ -17,13 +16,31 @@ import java.io.*;
 
 public class problem4 {
 
-    private class Vertix {
-        int n = 0;
+    int vlength = 875714;
+    public static Vertix[] graph = new Vertix[875714];
+    //= new Array(875714);
+
+
+    public static class Vertix {
+        public int n;
+        public int leader;
+        public boolean explored = false;
+        public int finishingTime;
+        public List<Integer> edges = new ArrayList<Integer>();
+
+        public Vertix(int v) {
+            n = v;
+        }
+
+        public void addEdge(int edge) {
+            edges.add(edge);
+        }
 
     }
 
     public String DFS(Vertix[] graph, int s) {
         //int s is start point.
+
 
         return "s";
     }
@@ -34,25 +51,27 @@ public class problem4 {
 
     public static void main(String[] args) throws Exception {
         //input
-        Scanner in = new Scanner(new File("SCC.txt"));
-        int T = in.nextInt();
-        in.nextLine();
+        Scanner in = new Scanner(new File("./Week4/SCC.txt"));
+
+        int previous = -1;
+        while (in.hasNextInt()) {
+            int vertix = in.nextInt();
+            int edge = in.nextInt();
+            if (vertix != previous) {
+                graph[vertix] = new Vertix(vertix);
+                previous = vertix;
+            }
+            graph[vertix].addEdge(edge);
+        }
 
         //processing
+        System.out.println(graph.length);
 
 
         //output
-        PrintWriter out = new PrintWriter(new File("A.out"));
+        //PrintWriter out = new PrintWriter(new File("A.out"));
 
-
-        for(int zz = 1; zz <= T; zz++) {
-            String ans = "";
-            String S = in.nextLine();
-            for (int i = 0; i < S.length(); i++) {
-                //ans += hm.get(S.charAt(i));
-            }
-            out.format("Case #%d: %s\n", zz, ans);
-        }
-        out.close();
+        //out.format("Case #%d: %s\n", zz, ans);
+        //out.close();
     }
 }
