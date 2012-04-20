@@ -1,8 +1,14 @@
-# randomContractions.py
 import random
-import time
+
+"""
+# randomContractions.py
+Implementation of Karger's algorithm.  http://en.wikipedia.org/wiki/Karger's_algorithm
+"""
+
 
 def importGraph(filename = 'kargerAdj.txt'):
+    """Imports pairs of endpoints into an adjancey list graph representation.
+    Keep track of both edges and vertices."""
     f = open(filename)
     adjEdges = []
     adjVertix = []
@@ -16,7 +22,7 @@ def importGraph(filename = 'kargerAdj.txt'):
             v.addEdge(e)
         adjVertix.append(v)
             
-    # redundancy processing:
+    # remove redundancies:
     n = len(adjEdges)
     adjEdges.sort(key=lambda x: x.ends[1])
     adjEdges.sort(key=lambda x: x.ends[0])
@@ -67,10 +73,8 @@ class Edge:
 
 
 def findmincut(adj):
-    adje = adj[0]
-    adjv = adj[1]
+    (adje, adjv) = adj
     
-    # random.seed(time.time())
     while len(adjv) > 2:
         # pick a remaining edge randomly
         r = random.randint(0, len(adje) - 1)
@@ -80,14 +84,14 @@ def findmincut(adj):
         
         for i in range(len(adjv)):
             if adjv[i].n == contractEdge.ends[0]:
-                vh_idx = i
+                headIndex = i
             if adjv[i].n == contractEdge.ends[1]:
-                vt_idx = i
+                tailIndex = i
         
-        find = adjv[vh_idx].n
-        replace = adjv[vt_idx].n
-        adjv[vt_idx].edges = adjv[vt_idx].edges + adjv[vh_idx].edges
-        adjv.pop(vh_idx)
+        find = adjv[headIndex].n
+        replace = adjv[tailIndex].n
+        adjv[tailIndex].edges = adjv[tailIndex].edges + adjv[headIndex].edges
+        adjv.pop(headIndex)
         
         # replace vertix values in edge list
         for i in range(len(adje)):
